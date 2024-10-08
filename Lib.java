@@ -14,8 +14,8 @@ public class Lib {
         char[][] myGrid = createGrid();
         System.out.println("Here is the grid! A # symbol represents an empty space.");
         printGrid(myGrid);
-        boolean gameNotWon = myRandom.nextBoolean();
-        boolean player1 = true;
+        boolean gameNotWon = true;
+        boolean player1 = myRandom.nextBoolean();
         char playerSymbol = '#';
         while (gameNotWon) {
             if (player1) {
