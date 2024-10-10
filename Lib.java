@@ -11,13 +11,15 @@ public class Lib {
         String p1Name = ncScan.next();
         System.out.print("Enter Player 2's name (O) >>> ");
         String p2Name = ncScan.next();
-        char[][] myGrid = createGrid();
+        System.out.print("What size of game do you want to play? e.g. 3,4,5 >>> ");
+        int gridSize = ncScan.nextInt();
+        char[][] myGrid = createGrid(gridSize);
         System.out.println("Here is the grid! A # symbol represents an empty space.");
         printGrid(myGrid);
         boolean gameNotWon = true;
         boolean player1 = myRandom.nextBoolean();
         printStartMessage(player1, p1Name, p2Name);
-        char playerSymbol = '#';
+        char playerSymbol;
         while (gameNotWon) {
             if (player1) {
                 System.out.println(p1Name + ", it's your turn!");
@@ -39,15 +41,18 @@ public class Lib {
         }
         System.out.println("Thank you for playing!");
     }
-    private char[][] createGrid() {
-        char[][] grid = new char[3][3];
+    private char[][] createGrid(int gridSize) {
+        char[][] grid = new char[gridSize][gridSize];
         for (char[] row : grid) {
             Arrays.fill(row, '#');
         }
         return grid;
     }
     private void printGrid(char[][] grid) {
-        int[] firstRow = {1, 2, 3};
+        int[] firstRow = new int[grid.length];
+        for (int i = 0; i < grid.length; i++) {
+            firstRow[i] = i + 1;
+        }
         System.out.print("   ");
         for (int i : firstRow) {
             System.out.print(i + "  ");
@@ -66,7 +71,9 @@ public class Lib {
             chosenCoords[0] = scScan.nextInt() - 1;
             System.out.print("Enter the column of the space you would like to fill >>> ");
             chosenCoords[1] = scScan.nextInt() - 1;
-            if (grid[chosenCoords[0]][chosenCoords[1]] != '#') {
+            if (chosenCoords[0] >= grid.length || chosenCoords[1] >= grid.length || chosenCoords[0] < 1 || chosenCoords[1] < 1) {
+                System.out.println("Chosen coordinates do not exist. Please choose a different space.");
+            } else if (grid[chosenCoords[0]][chosenCoords[1]] != '#') {
                 System.out.println("This space is already full. Please choose a different space.");
             } else {
                 validSpace = true;
@@ -79,11 +86,13 @@ public class Lib {
         return originalGrid;
     }
     private char[] checkWin(char[][] grid) {
+        // Row check
         for (char[] row : grid) {
             if (isAllEqual(row) && (row[0] != '#')) {
                 return new char[]{'1', row[0]};
             }
         }
+        // Column check
         char[] iterArray = new char[grid.length];
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid.length; j++) {
@@ -93,12 +102,14 @@ public class Lib {
                 return new char[]{'1', iterArray[0]};
             }
         }
+        // Left diagonal
         for (int i = 0; i < grid.length; i++) {
             iterArray[i] = grid[i][i];
         }
         if (isAllEqual(iterArray) && iterArray[0] != '#') {
             return new char[]{'1', iterArray[0]};
         }
+        // Right diagonal
         for (int i = 0; i < grid.length; i++) {
             iterArray[i] = grid[i][grid.length - 1 - i];
         }
