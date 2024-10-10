@@ -100,7 +100,7 @@ public class Lib {
             return new char[]{'1', iterArray[0]};
         }
         for (int i = 0; i < grid.length; i++) {
-            iterArray[i] = grid[i][grid.length - i];
+            iterArray[i] = grid[i][grid.length - 1 - i];
         }
         if (isAllEqual(iterArray) && iterArray[0] != '#') {
             return new char[]{'1', iterArray[0]};
@@ -110,10 +110,10 @@ public class Lib {
         for (char[] row : grid) {
             for (int j = 0; j < grid.length; j++) {
                 fullGrid[fullIter] = row[j];
+                fullIter++;
             }
-            fullIter++;
         }
-        if (!noHashes(fullGrid)) {
+        if (gridFull(fullGrid)) {
             return new char[]{'2', '#'};
         }
         return new char[]{'0', '#'};
@@ -147,9 +147,9 @@ public class Lib {
         }
         return true;
     }
-    private boolean noHashes(char[] checkArray) {
+    private boolean gridFull(char[] checkArray) {
         if (checkArray == null) {
-            return true;
+            return false;
         }
         for (char c : checkArray) {
             if (c == '#') {
