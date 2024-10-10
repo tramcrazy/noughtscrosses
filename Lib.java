@@ -32,7 +32,7 @@ public class Lib {
             myGrid = fillGrid(myGrid, userCoords, playerSymbol);
             char[] winner_data = checkWin(myGrid);
             printGrid(myGrid);
-            if (winner_data[0] == '1') {
+            if (winner_data[0] != '0') {
                 printWinMessage(winner_data, p1Name, p2Name);
                 gameNotWon = false;
             }
@@ -79,36 +79,50 @@ public class Lib {
         return originalGrid;
     }
     private char[] checkWin(char[][] grid) {
-        // row1
-        if (grid[0][0] == grid[0][1] && grid[0][1] == grid[0][2] && grid[0][0] != '#') {
-            return new char[]{'1', grid[0][0]};
-        // row2
-        } else if (grid[1][0] == grid[1][1] && grid[1][1] == grid[1][2] && grid[1][0] != '#') {
-            return new char[]{'1', grid[1][0]};
-        // row3
-        } else if (grid[2][0] == grid[2][1] && grid[2][1] == grid[2][2] && grid[2][0] != '#') {
-            return new char[]{'1', grid[2][0]};
-        // col1
-        } else if (grid[0][0] == grid[1][0] && grid[1][0] == grid[2][0] && grid[0][0] != '#') {
-            return new char[]{'1', grid[0][0]};
-        // col2
-        } else if (grid[0][1] == grid[1][1] && grid[1][1] == grid[2][1] && grid[0][1] != '#') {
-            return new char[]{'1', grid[0][1]};
-        // col3
-        } else if (grid[0][2] == grid[1][2] && grid[1][2] == grid[2][2] && grid[0][2] != '#') {
-            return new char[]{'1', grid[0][2]};
-        // diag1
-        } else if (grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2] && grid[0][0] != '#') {
-            return new char[]{'1', grid[0][0]};
-        // diag2
-        } else if (grid[0][2] == grid[1][1] && grid[1][1] == grid[2][0] && grid[0][2] != '#') {
-            return new char[]{'1', grid[0][2]};
-        } else {
-            return new char[]{'0', '#'};
+        for (char[] row : grid) {
+            if (isAllEqual(row) && (row[0] != '#')) {
+                return new char[]{'1', row[0]};
+            }
         }
+        char[] iterArray = new char[grid.length];
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid.length; j++) {
+                iterArray[j] = grid[j][i];
+            }
+            if (isAllEqual(iterArray) && iterArray[0] != '#') {
+                return new char[]{'1', iterArray[0]};
+            }
+        }
+        for (int i = 0; i < grid.length; i++) {
+            iterArray[i] = grid[i][i];
+        }
+        if (isAllEqual(iterArray) && iterArray[0] != '#') {
+            return new char[]{'1', iterArray[0]};
+        }
+        for (int i = 0; i < grid.length; i++) {
+            iterArray[i] = grid[i][grid.length - i];
+        }
+        if (isAllEqual(iterArray) && iterArray[0] != '#') {
+            return new char[]{'1', iterArray[0]};
+        }
+        char[] fullGrid = new char[grid.length * grid.length];
+        int fullIter = 0;
+        for (char[] row : grid) {
+            for (int j = 0; j < grid.length; j++) {
+                fullGrid[fullIter] = row[j];
+            }
+            fullIter++;
+        }
+        if (!noHashes(fullGrid)) {
+            return new char[]{'2', '#'};
+        }
+        return new char[]{'0', '#'};
     }
     private void printWinMessage(char[] winner_data, String player1Name, String player2Name) {
-        if (winner_data[1] == 'X') {
+        if (winner_data[0] == '2') {
+            System.out.println("Draw!");
+        }
+        else if (winner_data[1] == 'X') {
             System.out.println(player1Name + " wins!");
         }
         else if (winner_data[1] == 'O') {
@@ -121,5 +135,27 @@ public class Lib {
         } else {
             System.out.println(p2Name + " to start!");
         }
+    }
+    private boolean isAllEqual(char[] checkArray) {
+        if (checkArray == null || checkArray.length == 0) {
+            return false;
+        }
+        for (char c : checkArray) {
+            if (c != checkArray[0]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    private boolean noHashes(char[] checkArray) {
+        if (checkArray == null) {
+            return true;
+        }
+        for (char c : checkArray) {
+            if (c == '#') {
+                return false;
+            }
+        }
+        return true;
     }
 }
