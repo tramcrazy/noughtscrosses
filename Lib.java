@@ -16,6 +16,7 @@ public class Lib {
         printGrid(myGrid);
         boolean gameNotWon = true;
         boolean player1 = myRandom.nextBoolean();
+        printStartMessage(player1, p1Name, p2Name);
         char playerSymbol = '#';
         while (gameNotWon) {
             if (player1) {
@@ -112,6 +113,13 @@ public class Lib {
         }
         else if (winner_data[1] == 'O') {
             System.out.println(player2Name + " wins!");
+        }
+    }
+    private void printStartMessage(boolean player1, String p1Name, String p2Name) {
+        if (player1) {
+            System.out.println(p1Name + " to start!");
+        } else {
+            System.out.println(p2Name + " to start!");
         }
     }
 }
