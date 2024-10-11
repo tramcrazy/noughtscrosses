@@ -41,28 +41,6 @@ public class Lib {
         }
         System.out.println("Thank you for playing!");
     }
-    private char[][] createGrid(int gridSize) {
-        char[][] grid = new char[gridSize][gridSize];
-        for (char[] row : grid) {
-            Arrays.fill(row, '#');
-        }
-        return grid;
-    }
-    private void printGrid(char[][] grid) {
-        int[] firstRow = new int[grid.length];
-        for (int i = 0; i < grid.length; i++) {
-            firstRow[i] = i + 1;
-        }
-        System.out.print("   ");
-        for (int i : firstRow) {
-            System.out.print(i + "  ");
-        }
-        System.out.println();
-        for (int i = 0; i < grid.length; i++) {
-            System.out.print(i + 1 + " ");
-            System.out.println(Arrays.toString(grid[i]));
-        }
-    }
     private int[] spaceChooser(char[][] grid, Scanner scScan) {
         boolean validSpace = false;
         int[] chosenCoords = new int[2];
@@ -81,54 +59,6 @@ public class Lib {
         }
         return chosenCoords;
     }
-    private char[][] fillGrid(char[][] originalGrid, int[] chosenCoords, char playerSymbol) {
-        originalGrid[chosenCoords[0]][chosenCoords[1]] = playerSymbol;
-        return originalGrid;
-    }
-    private char[] checkWin(char[][] grid) {
-        // Row check
-        for (char[] row : grid) {
-            if (isAllEqual(row) && (row[0] != '#')) {
-                return new char[]{'1', row[0]};
-            }
-        }
-        // Column check
-        char[] iterArray = new char[grid.length];
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid.length; j++) {
-                iterArray[j] = grid[j][i];
-            }
-            if (isAllEqual(iterArray) && iterArray[0] != '#') {
-                return new char[]{'1', iterArray[0]};
-            }
-        }
-        // Left diagonal
-        for (int i = 0; i < grid.length; i++) {
-            iterArray[i] = grid[i][i];
-        }
-        if (isAllEqual(iterArray) && iterArray[0] != '#') {
-            return new char[]{'1', iterArray[0]};
-        }
-        // Right diagonal
-        for (int i = 0; i < grid.length; i++) {
-            iterArray[i] = grid[i][grid.length - 1 - i];
-        }
-        if (isAllEqual(iterArray) && iterArray[0] != '#') {
-            return new char[]{'1', iterArray[0]};
-        }
-        char[] fullGrid = new char[grid.length * grid.length];
-        int fullIter = 0;
-        for (char[] row : grid) {
-            for (int j = 0; j < grid.length; j++) {
-                fullGrid[fullIter] = row[j];
-                fullIter++;
-            }
-        }
-        if (gridFull(fullGrid)) {
-            return new char[]{'2', '#'};
-        }
-        return new char[]{'0', '#'};
-    }
     private void printWinMessage(char[] winner_data, String player1Name, String player2Name) {
         if (winner_data[0] == '2') {
             System.out.println("Draw!");
@@ -146,27 +76,5 @@ public class Lib {
         } else {
             System.out.println(p2Name + " to start!");
         }
-    }
-    private boolean isAllEqual(char[] checkArray) {
-        if (checkArray == null || checkArray.length == 0) {
-            return false;
-        }
-        for (char c : checkArray) {
-            if (c != checkArray[0]) {
-                return false;
-            }
-        }
-        return true;
-    }
-    private boolean gridFull(char[] checkArray) {
-        if (checkArray == null) {
-            return false;
-        }
-        for (char c : checkArray) {
-            if (c == '#') {
-                return false;
-            }
-        }
-        return true;
     }
 }
