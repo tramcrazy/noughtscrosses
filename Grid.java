@@ -1,9 +1,8 @@
-import java.io.OptionalDataException;
 import java.util.Arrays;
 
 public class Grid {
     public char[][] gridArray;
-    private char emptyChar;
+    private final char emptyChar;
     public Grid(int gridSize, char emptyChar) {
         gridArray = new char[gridSize][gridSize];
         for (char[] row : gridArray) {
@@ -59,14 +58,6 @@ public class Grid {
         }
         if (isAllEqual(iterArray) && iterArray[0] != emptyChar) {
             return new char[]{'1', iterArray[0]};
-        }
-        char[] fullGrid = new char[gridArray.length * gridArray.length];
-        int fullIter = 0;
-        for (char[] row : gridArray) {
-            for (int j = 0; j < gridArray.length; j++) {
-                fullGrid[fullIter] = row[j];
-                fullIter++;
-            }
         }
         if (gridFull()) {
             return new char[]{'2', emptyChar};
