@@ -13,9 +13,9 @@ public class Lib {
         String p2Name = ncScan.next();
         System.out.print("What size of game do you want to play? e.g. 3,4,5 >>> ");
         int gridSize = ncScan.nextInt();
-        char[][] myGrid = createGrid(gridSize);
+        Grid myGrid = new Grid(gridSize, '#');
         System.out.println("Here is the grid! A # symbol represents an empty space.");
-        printGrid(myGrid);
+        myGrid.printGrid();
         boolean gameNotWon = true;
         boolean player1 = myRandom.nextBoolean();
         printStartMessage(player1, p1Name, p2Name);
@@ -30,10 +30,10 @@ public class Lib {
                 playerSymbol = 'O';
                 player1 = true;
             }
-            int[] userCoords = spaceChooser(myGrid, ncScan);
-            myGrid = fillGrid(myGrid, userCoords, playerSymbol);
-            char[] winner_data = checkWin(myGrid);
-            printGrid(myGrid);
+            int[] userCoords = spaceChooser(myGrid.gridArray, ncScan);
+            myGrid.fillGrid(userCoords, playerSymbol);
+            char[] winner_data = myGrid.checkWin();
+            myGrid.printGrid();
             if (winner_data[0] != '0') {
                 printWinMessage(winner_data, p1Name, p2Name);
                 gameNotWon = false;
