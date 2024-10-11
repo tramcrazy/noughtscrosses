@@ -71,7 +71,7 @@ public class Lib {
             chosenCoords[0] = scScan.nextInt() - 1;
             System.out.print("Enter the column of the space you would like to fill >>> ");
             chosenCoords[1] = scScan.nextInt() - 1;
-            if (chosenCoords[0] >= grid.length || chosenCoords[1] >= grid.length || chosenCoords[0] < 1 || chosenCoords[1] < 1) {
+            if (chosenCoords[0] >= grid.length || chosenCoords[1] >= grid.length || chosenCoords[0] < 0 || chosenCoords[1] < 0) {
                 System.out.println("Chosen coordinates do not exist. Please choose a different space.");
             } else if (grid[chosenCoords[0]][chosenCoords[1]] != '#') {
                 System.out.println("This space is already full. Please choose a different space.");
