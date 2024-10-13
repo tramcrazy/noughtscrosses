@@ -2,15 +2,20 @@ import java.util.Scanner;
 
 public class HumanPlayer extends Player {
     Scanner humanPlayerScanner = new Scanner(System.in);
+
     public HumanPlayer(int playerNum) {
         super(playerNum);
         playerName = setName();
     }
-    @Override protected String setName() {
+
+    @Override
+    protected String setName() {
         System.out.print("Enter Player " + playerNum + "'s name (" + playerSymbol + ") >>> ");
         return humanPlayerScanner.next();
     }
-    @Override public int[] chooseSpace(Grid grid) {
+
+    @Override
+    public int[] chooseSpace(Grid grid) {
         boolean validSpace = false;
         int[] chosenCoords = new int[2];
         while (!validSpace) {

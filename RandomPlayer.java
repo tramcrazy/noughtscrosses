@@ -2,14 +2,19 @@ import java.util.Random;
 
 public class RandomPlayer extends Player {
     Random randomPlayerRandom = new Random();
+
     public RandomPlayer(int playerNum) {
         super(playerNum);
         playerName = setName();
     }
-    @Override protected String setName() {
+
+    @Override
+    protected String setName() {
         return "Randomised Computer " + playerNum;
     }
-    @Override public int[] chooseSpace(Grid grid) {
+
+    @Override
+    public int[] chooseSpace(Grid grid) {
         boolean validSpace = false;
         int[] chosenCoords = new int[2];
         while (!validSpace) {
@@ -21,7 +26,9 @@ public class RandomPlayer extends Player {
         }
         return chosenCoords;
     }
-    @Override public void printPlayMessage() {
+
+    @Override
+    public void printPlayMessage() {
         System.out.println(playerName + " is playing...");
     }
 }

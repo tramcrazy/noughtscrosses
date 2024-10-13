@@ -2,10 +2,13 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Lib {
-    public void runNoughtsCrosses() {
-        Scanner ncScan = new Scanner(System.in);
-        Random myRandom = new Random();
-        System.out.println("Welcome to Noughts and Crosses!");
+
+    private final Scanner ncScan = new Scanner(System.in);
+    private final Random myRandom = new Random();
+
+    private GameContext context;
+
+    public void determinePlayers(GameContext.GameContextBuilder ctxBuilder) {
         System.out.println("Is Player 1 a (H)uman or (R)andomised Computer Player?");
         char p1Type = ncScan.next().charAt(0);
         System.out.println("Is Player 2 a (H)uman or (R)andomised Computer Player?");
@@ -22,49 +25,70 @@ public class Lib {
         } else {
             player2 = new RandomPlayer(2);
         }
+        ctxBuilder.player1(player1);
+        ctxBuilder.player2(player2);
+    }
+
+    private void determineGrid(GameContext.GameContextBuilder ctxBuilder) {
         System.out.print("What size of game do you want to play? e.g. 3,4,5 >>> ");
         int gridSize = ncScan.nextInt();
         Grid myGrid = new Grid(gridSize, '#');
         System.out.println("Here is the grid! A # symbol represents an empty space.");
         myGrid.printGrid();
-        boolean gameNotWon = true;
-        boolean isPlayer1 = myRandom.nextBoolean();
-        printStartMessage(isPlayer1, player1.playerName, player2.playerName);
-        while (gameNotWon) {
-            if (isPlayer1) {
-                player1.printPlayMessage();
-                isPlayer1 = false;
-                myGrid.fillGrid(player1.chooseSpace(myGrid), player1.playerSymbol);
+        ctxBuilder.grid(myGrid);
+    }
+
+    private void playGame() {
+        while (context.gameStillRunning()) {
+            Player currentPlayer;
+            if (context.isPlayer1()) {
+                currentPlayer = context.getPlayer1();
             } else {
-                player2.printPlayMessage();
-                isPlayer1 = true;
-                myGrid.fillGrid(player2.chooseSpace(myGrid), player2.playerSymbol);
+                currentPlayer = context.getPlayer2();
             }
-            char[] winner_data = myGrid.checkWin();
-            myGrid.printGrid();
-            if (winner_data[0] != '0') {
-                printWinMessage(winner_data, player1.playerName, player2.playerName);
-                gameNotWon = false;
+
+            currentPlayer.printPlayMessage();
+            context.switchPlayer();
+            context.getGrid().fillGrid(currentPlayer.chooseSpace(context.getGrid()), currentPlayer.playerSymbol);
+
+            GameStatus gameStatus = context.getGrid().checkWin();
+            context.getGrid().printGrid();
+            if (gameStatus != GameStatus.NO_CHANGE) {
+                printWinMessage(gameStatus);
+                context.finishGame();
             }
         }
+    }
+
+    public void runNoughtsCrosses() {
+        GameContext.GameContextBuilder ctxBuilder = new GameContext.GameContextBuilder();
+        System.out.println("Welcome to Noughts and Crosses!");
+        determinePlayers(ctxBuilder);
+        determineGrid(ctxBuilder);
+        ctxBuilder.isPlayer1(myRandom.nextBoolean());
+
+        context = ctxBuilder.build();
+        printStartMessage(context.isPlayer1());
+        playGame();
         System.out.println("Thank you for playing!");
     }
-    private void printWinMessage(char[] winner_data, String player1Name, String player2Name) {
-        if (winner_data[0] == '2') {
+
+    private void printWinMessage(GameStatus status) {
+        if (status == GameStatus.DRAW) {
             System.out.println("Draw!");
+            return;
         }
-        else if (winner_data[1] == 'X') {
-            System.out.println(player1Name + " wins!");
-        }
-        else if (winner_data[1] == 'O') {
-            System.out.println(player2Name + " wins!");
-        }
+
+        String winner;
+        if (status == GameStatus.X_WIN) winner = context.getPlayer1().getPlayerName();
+        else winner = context.getPlayer2().getPlayerName();
+        System.out.printf("%s wins!\n", winner);
     }
-    private void printStartMessage(boolean player1, String p1Name, String p2Name) {
-        if (player1) {
-            System.out.println(p1Name + " to start!");
-        } else {
-            System.out.println(p2Name + " to start!");
-        }
+
+    private void printStartMessage(boolean player1) {
+        String starter;
+        if (player1) starter = context.getPlayer1().getPlayerName();
+        else starter = context.getPlayer2().getPlayerName();
+        System.out.printf("%s to start!\n", starter);
     }
 }
