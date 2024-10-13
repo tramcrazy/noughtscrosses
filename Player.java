@@ -10,6 +10,8 @@ public abstract class Player {
             playerSymbol = 'O';
         }
     }
+    protected abstract String setName();
+    public abstract int[] chooseSpace(Grid grid);
     public void printPlayMessage() {
         System.out.println(playerName + ", it's your turn!");
     }

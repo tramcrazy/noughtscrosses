@@ -6,10 +6,10 @@ public class RandomPlayer extends Player {
         super(playerNum);
         playerName = setName();
     }
-    private String setName() {
+    @Override protected String setName() {
         return "Randomised Computer " + playerNum;
     }
-    public int[] chooseSpace(Grid grid) {
+    @Override public int[] chooseSpace(Grid grid) {
         boolean validSpace = false;
         int[] chosenCoords = new int[2];
         while (!validSpace) {

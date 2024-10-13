@@ -10,15 +10,17 @@ public class Lib {
         char p1Type = ncScan.next().charAt(0);
         System.out.println("Is Player 2 a (H)uman or (R)andomised Computer Player?");
         char p2Type = ncScan.next().charAt(0);
+        Player player1;
+        Player player2;
         if (p1Type == 'H') {
-            HumanPlayer player1 = new HumanPlayer(1);
+            player1 = new HumanPlayer(1);
         } else {
-            RandomPlayer player1 = new RandomPlayer(1);
+            player1 = new RandomPlayer(1);
         }
         if (p2Type == 'H') {
-            HumanPlayer player2 = new HumanPlayer(2);
+            player2 = new HumanPlayer(2);
         } else {
-            RandomPlayer player2 = new RandomPlayer(2);
+            player2 = new RandomPlayer(2);
         }
         System.out.print("What size of game do you want to play? e.g. 3,4,5 >>> ");
         int gridSize = ncScan.nextInt();

@@ -6,11 +6,11 @@ public class HumanPlayer extends Player {
         super(playerNum);
         playerName = setName();
     }
-    private String setName() {
+    @Override protected String setName() {
         System.out.print("Enter Player " + playerNum + "'s name (" + playerSymbol + ") >>> ");
         return humanPlayerScanner.next();
     }
-    public int[] chooseSpace(Grid grid) {
+    @Override public int[] chooseSpace(Grid grid) {
         boolean validSpace = false;
         int[] chosenCoords = new int[2];
         while (!validSpace) {
