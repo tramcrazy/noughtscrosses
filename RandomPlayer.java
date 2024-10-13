@@ -7,7 +7,7 @@ public class RandomPlayer extends Player {
         playerName = setName();
     }
     private String setName() {
-        return "Randomised Computer";
+        return "Randomised Computer " + playerNum;
     }
     public int[] chooseSpace(Grid grid) {
         boolean validSpace = false;
@@ -20,5 +20,8 @@ public class RandomPlayer extends Player {
             }
         }
         return chosenCoords;
+    }
+    @Override public void printPlayMessage() {
+        System.out.println(playerName + " is playing...");
     }
 }

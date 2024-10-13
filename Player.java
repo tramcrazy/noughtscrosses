@@ -10,4 +10,7 @@ public abstract class Player {
             playerSymbol = 'O';
         }
     }
+    public void printPlayMessage() {
+        System.out.println(playerName + ", it's your turn!");
+    }
 }
