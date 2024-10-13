@@ -1,8 +1,13 @@
 public abstract class Player {
-    char playerSymbol;
+    int playerNum;
     String playerName;
-    public Player(char playerSymbol, String playerName) {
-        this.playerSymbol = playerSymbol;
-        this.playerName = playerName;
+    char playerSymbol;
+    public Player(int playerNum) {
+        this.playerNum = playerNum;
+        if (playerNum == 1) {
+            playerSymbol = 'X';
+        } else {
+            playerSymbol = 'O';
+        }
     }
 }
