@@ -2,8 +2,8 @@ import java.util.Random;
 
 public class RandomPlayer extends Player {
     Random randomPlayerRandom = new Random();
-    public RandomPlayer(char playerSymbol) {
-        super(playerSymbol);
+    public RandomPlayer(int playerNum) {
+        super(playerNum);
         playerName = setName();
     }
     private String setName() {

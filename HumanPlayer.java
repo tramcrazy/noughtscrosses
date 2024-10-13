@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class HumanPlayer extends Player {
     Scanner humanPlayerScanner = new Scanner(System.in);
-    public HumanPlayer(char playerSymbol) {
-        super(playerSymbol);
+    public HumanPlayer(int playerNum) {
+        super(playerNum);
         playerName = setName();
     }
     private String setName() {
