@@ -6,9 +6,9 @@ public class Lib {
         Scanner ncScan = new Scanner(System.in);
         Random myRandom = new Random();
         System.out.println("Welcome to Noughts and Crosses!");
-        System.out.println("Is Player 1 a (H)uman or (R)andomised Computer Player?");
+        System.out.print("Is Player 1 a (H)uman or (R)andomised Computer Player?");
         char p1Type = ncScan.next().charAt(0);
-        System.out.println("Is Player 2 a (H)uman or (R)andomised Computer Player?");
+        System.out.print("Is Player 2 a (H)uman or (R)andomised Computer Player?");
         char p2Type = ncScan.next().charAt(0);
         Player player1;
         Player player2;
